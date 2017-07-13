@@ -6,25 +6,34 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import {defaultAudioProviderFactory, IonicAudioModule} from "ionic-audio";
+import {HttpModule} from "@angular/http";
+import { DataService } from '../providers/data-service/data-service';
+import {LessonListPage} from "../pages/lesson-list/lesson-list";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    LessonListPage
   ],
   imports: [
+    HttpModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicAudioModule.forRoot(defaultAudioProviderFactory)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    LessonListPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataService
   ]
 })
 export class AppModule {}

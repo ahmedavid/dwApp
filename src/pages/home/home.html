@@ -6,9 +6,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+
+  <ion-card *ngFor="let module of modules" (click)="openLessonList(module)">
+    <ion-card-content>
+      <ion-card-title>
+        <h2 class="card-title">{{module.title}}</h2>
+      </ion-card-title>
+      <div>
+        <img [src]="module.image"/>
+      </div>
+      <p class="card-subtitle">{{module.description}}</p>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
