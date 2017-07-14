@@ -18,6 +18,8 @@ export class HomePage implements OnInit{
 
   modules:any = [];
 
+  pdfSrc = 'assets/pdf.pdf';
+
 
 
   constructor(
@@ -28,11 +30,11 @@ export class HomePage implements OnInit{
 
   ngOnInit(){
     this.modules = this.dataService.getModules();
+    console.log(this.modules)
   }
 
 
   openLessonList(module){
-    console.log('PUSHING')
     this.navCtrl.push(LessonListPage,{module:module})
   }
 

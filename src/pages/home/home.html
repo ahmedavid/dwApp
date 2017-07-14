@@ -1,12 +1,18 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      DW Warum Nicht!
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
+  <pdf-viewer [src]="pdfSrc"
+              [page]="1"
+              [original-size]="true"
+              style="display: block;"
+  ></pdf-viewer>
 
   <ion-card *ngFor="let module of modules" (click)="openLessonList(module)">
     <ion-card-content>

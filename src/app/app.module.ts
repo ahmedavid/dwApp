@@ -10,9 +10,11 @@ import {defaultAudioProviderFactory, IonicAudioModule} from "ionic-audio";
 import {HttpModule} from "@angular/http";
 import { DataService } from '../providers/data-service/data-service';
 import {LessonListPage} from "../pages/lesson-list/lesson-list";
+import {PdfViewerComponent} from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
+    PdfViewerComponent,
     MyApp,
     HomePage,
     LessonListPage

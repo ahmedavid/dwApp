@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import * as xml2js from 'xml2js';
+//import * as xml2js from 'xml2js';
 
 @Injectable()
 export class DataService {
 
   moduleUrls = [
-    'http://rss.dw.com/xml/DKpodcast_dwn1_en',
-    'http://rss.dw.com/xml/DKpodcast_dwn2_en',
-    'http://rss.dw.com/xml/DKpodcast_dwn3_en',
-    'http://rss.dw.com/xml/DKpodcast_dwn4_en',
+    'https://rss.dw.com/xml/DKpodcast_dwn1_en',
+    'https://rss.dw.com/xml/DKpodcast_dwn2_en',
+    'https://rss.dw.com/xml/DKpodcast_dwn3_en',
+    'https://rss.dw.com/xml/DKpodcast_dwn4_en',
   ];
 
   modulesData = [];
 
   constructor(public http: Http) {
-    this.moduleUrls.forEach((module)=>{
-      this.http.get(module)
+
+    //this.http.get('assets/modules.json').subscribe((data)=>console.log(data.json()))
+
+    /*this.moduleUrls.forEach((module)=>{
+      this.http.get('assets/modules.json')
         .map((response)=>{
           let json:any = {title:'',image:'',series:[],description:''};
           new xml2js.Parser().parseString(response.text(),(err, result) => {
@@ -37,7 +40,15 @@ export class DataService {
         .subscribe( data => {
           this.modulesData.push(data);
         })
-    });
+    });*/
+
+    this.http.get('assets/modules.json')
+      .subscribe( data => {
+        console.log('JSON:',data.json())
+        data.json().forEach(d=>{
+          this.modulesData.push(d);
+        })
+      })
   }
 
   getModules(){
