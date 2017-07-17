@@ -4,11 +4,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import {AboutPage} from "../pages/about/about";
+import {SettingsPage} from "../pages/settings/settings";
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage:any = HomePage;
+  aboutPage:any=AboutPage;
+  homePage:any=HomePage;
+  settingsPage:any=SettingsPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
@@ -17,6 +22,10 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+
+  openPage(page){
+    this.rootPage=page;
   }
 }
 

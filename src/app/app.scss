@@ -14,3 +14,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@import "flags.scss";
+
+
+.logo{
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin: 0 auto;
+}
+
+.playButton{
+  border: 1px solid menu;
+  border-radius: 100%;
+}

@@ -6,4 +6,52 @@ page-home {
   .imgHolder{
     overflow: hidden;
   }
+
+
+  .card-background-page {
+
+    ion-card {
+      position: relative;
+      text-align: right;
+
+    }
+
+    .card-title {
+      font-size: 1.3em;
+      width: 100%;
+      font-weight: bold;
+      color: #fff;
+      padding-right: 35px;
+      padding-top: 10px;
+    }
+
+    .card-subtitle {
+      font-size: .8em;
+      width: 100%;
+      color: #fff;
+      padding-right: 40px;
+    }
+
+
+
+  }
+
+  .bg{
+    position: absolute;
+    bottom: -10px;
+    background-color: #012D5A;
+    height: 70px;
+    width: 100%;
+    transform-origin: left;
+    transform: translate(0,35px) rotate(-5deg) scale(1.1) ;
+  }
+
+  .card{
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  .col{
+    padding: 1px;
+  }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import {ModalController, NavParams} from 'ionic-angular';
 import {AudioProvider} from "ionic-audio";
+import {PdfPage} from "../pdf/pdf";
 
 @Component({
   selector: 'page-lesson-list',
@@ -9,40 +10,41 @@ import {AudioProvider} from "ionic-audio";
 export class LessonListPage {
 
   module:any;
-  myTracks: any[];
-  singleTrack: any;
-  allTracks: any[];
-  selectedTrack: number;
+  tracks:any;
 
-  constructor(private navParams: NavParams,private _audioProvider: AudioProvider) {
-  }
+  constructor(
+    private navParams: NavParams,
+    private _audioProvider: AudioProvider,
+    private modalCtrl:ModalController) {}
 
   ionViewDidLoad() {
     this.module = this.navParams.get('module');
-    console.log(this.module)
+
+    this.tracks=this.module.map((item)=>{
+      return {
+        title:item.title,
+        src:item.mp3
+      }
+    });
+
+    console.log('MODUKE:',this.tracks)
   }
 
-  ngAfterContentInit() {
-    // get all tracks managed by AudioProvider so we can control playback via the API
-    this.allTracks = this._audioProvider.tracks;
-  }
-
-  playSelectedTrack() {
-    // use AudioProvider to control selected track
-    this._audioProvider.tracks.forEach(track => track.stop())
-    this._audioProvider.play(this.selectedTrack);
-  }
-
-  pauseSelectedTrack() {
-    // use AudioProvider to control selected track
-    this._audioProvider.pause(this.selectedTrack);
-  }
-
-  onTrackFinished(track: any) {
+  openDoc(index){
+    const modal=this.modalCtrl.create(PdfPage,{src:this.module[index].pdf});
+    modal.present()
   }
 
   ionViewWillLeave(){
     this._audioProvider.tracks.forEach(track => track.stop())
+  }
+
+  play(){
+    this._audioProvider.tracks.forEach(track=>track.pause());
+  }
+
+  onTrackFinished(event){
+
   }
 
 }

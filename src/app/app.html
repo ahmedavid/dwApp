@@ -1,1 +1,25 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="mycontent">
+
+  <ion-content>
+
+    <div class="logo" text-center>
+      <img src="assets/images/dw.png" alt="logo" style="width: 100%">
+      <p class="motto">Deutsch , Warum Nicht!</p>
+    </div>
+
+    <ion-list>
+      <button ion-item menuClose (click)="openPage(homePage)">
+        Home
+      </button>
+      <button ion-item menuClose (click)="openPage(settingsPage)">
+        Settings
+      </button>
+      <button ion-item menuClose (click)="openPage(aboutPage)">
+        About
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
