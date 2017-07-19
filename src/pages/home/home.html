@@ -16,11 +16,23 @@
 
 <ion-content class="card-background-page">
 
-  <ion-card *ngFor="let module of modules;let i=index" (click)="openLessonList(module)">
+  <ion-card>
+
+    <ion-card-header class="header">
+      {{module?.title}}
+    </ion-card-header>
+
+    <ion-card-content class="header">
+      {{module?.description}}
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card class="series-card" *ngFor="let serie of module?.series;let i=index" (click)="openLessonList(serie.chapters,serie.title)">
     <img [src]="'assets/test/'+(i+1)+'.jpg'"/>
     <div class="bg">
-      <div class="card-title">Series {{i+1}}</div>
-      <div class="card-subtitle">26 Chapters</div>
+      <div class="card-title">{{serie.title}}</div>
+      <div class="card-subtitle">{{serie.chapters.length}} Chapters</div>
     </div>
   </ion-card>
 

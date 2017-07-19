@@ -9,7 +9,8 @@ import {PdfPage} from "../pdf/pdf";
 })
 export class LessonListPage {
 
-  module:any;
+  title:string;
+  chapters:any;
   tracks:any;
 
   constructor(
@@ -18,25 +19,20 @@ export class LessonListPage {
     private modalCtrl:ModalController) {}
 
   ionViewDidLoad() {
-    this.module = this.navParams.get('module');
+    this.chapters = this.navParams.get('chapters');
+    this.title = this.navParams.get('title');
 
-    this.tracks=this.module.map((item)=>{
+    this.tracks=this.chapters.filter((item)=>item.media).map((item)=>{
       return {
         title:item.title,
-        src:item.mp3
+        src:item.media ? item.media.mp3 : ""
       }
     });
-
-    console.log('MODUKE:',this.tracks)
   }
 
   openDoc(index){
-    const modal=this.modalCtrl.create(PdfPage,{src:this.module[index].pdf});
+    const modal=this.modalCtrl.create(PdfPage,{src:this.chapters[index].media.pdf,title:this.chapters[index].title});
     modal.present()
-  }
-
-  ionViewWillLeave(){
-    this._audioProvider.tracks.forEach(track => track.stop())
   }
 
   play(){

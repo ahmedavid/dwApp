@@ -20,11 +20,13 @@
 
   </ion-fab>
 
-  <pdf-viewer [src]="src"
+  <pdf-viewer *ngIf="isDevice;else other_content" [src]="src"
               [zoom]="zoom"
               [show-all]="true"
               [original-size]="false"
               style="display: block;"
   ></pdf-viewer>
+
+  <ng-template #other_content>PDF only supported on native devices</ng-template>
 
 </ion-content>

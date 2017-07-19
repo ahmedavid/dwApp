@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {HomePage} from "../home/home";
+import {DataService} from "../../providers/data-service/data-service";
 
 @Component({
   selector: 'page-settings',
@@ -8,7 +7,32 @@ import {HomePage} from "../home/home";
 })
 export class SettingsPage {
 
-  constructor(private navCtrl: NavController) {
+  lang:string;
+  langList = [
+    {
+      code:'en',
+      name:'English'
+    },
+    {
+      code:'es',
+      name:'Español'
+    },
+    {
+      code:'ru',
+      name:'Русский'
+    },
+    {
+      code:'tr',
+      name:'Türkçe'
+    },
+  ];
 
+  constructor(private dataService:DataService) {
+    this.lang = this.dataService.currLang;
+  }
+
+  onChangeLang(){
+    console.log(this.lang)
+    this.dataService.setLanguage(this.lang);
   }
 }

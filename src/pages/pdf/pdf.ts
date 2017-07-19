@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {NavController, NavParams, Platform, ViewController} from 'ionic-angular';
 
 @Component({
   selector: 'page-pdf',
@@ -8,13 +8,17 @@ import {NavController, NavParams, ViewController} from 'ionic-angular';
 export class PdfPage {
 
   src:any;
+  title:string;
   zoom=1;
+  isDevice=false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private viewCtrl:ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private viewCtrl:ViewController,private platform:Platform) {
+    this.isDevice = this.platform.is("cordova");
   }
 
   ionViewDidLoad() {
     this.src=this.navParams.get('src');
+    this.title=this.navParams.get('title');
   }
 
   onDissmis(){

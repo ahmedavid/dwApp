@@ -18,6 +18,15 @@
 
   <ion-list no-border no-lines>
 
+    <ion-item>
+      <ion-label>Select Language</ion-label>
+      <ion-select [(ngModel)]="lang" (ionChange)="onChangeLang()">
+        <ion-option *ngFor="let lang of langList" [value]="lang.code">
+          {{lang.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
     <button ion-item (click)="onSelectCountry()">
       <ion-avatar item-left>
         <i class="f48_united_states"></i>

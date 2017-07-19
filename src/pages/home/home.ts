@@ -10,7 +10,8 @@ import "rxjs/add/operator/map";
 })
 export class HomePage implements OnInit{
 
-  modules:any = [];
+  module:any;
+  lang:string;
 
   constructor(
     private navCtrl: NavController,
@@ -18,10 +19,35 @@ export class HomePage implements OnInit{
   ) {}
 
   ngOnInit(){
-    this.modules = this.dataService.getModules();
+    this.dataService.ModulesObservable.subscribe(()=>{
+      const temp = this.dataService.getModule();
+      const {title,description,series} = temp[0].module;
+      this.module = {
+        title,
+        description,
+        series
+      };
+      console.log("MODULES:",this.module);
+    });
+
+    const temp = this.dataService.getModule();
+    if(temp.length > 0){
+      const {title,description,series} = temp[0].module;
+      this.module = {
+        title,
+        description,
+        series
+      };
+    }
+
+    this.lang = this.dataService.currLang;
   }
 
-  openLessonList(module){
-    this.navCtrl.push(LessonListPage,{module:module})
+  ionViewWillEnter(){
+    console.log("MODULES 2:",this.module);
+  }
+
+  openLessonList(chapters,title){
+    this.navCtrl.push(LessonListPage,{chapters,title})
   }
 }

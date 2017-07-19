@@ -1,4 +1,7 @@
 page-home {
+  .header{
+    color: #012D5A;
+  }
   .titleImg{
     transform: scale(1.5, 1.5);
     overflow: hidden;
@@ -10,7 +13,7 @@ page-home {
 
   .card-background-page {
 
-    ion-card {
+    ion-card.series-card{
       position: relative;
       text-align: right;
 

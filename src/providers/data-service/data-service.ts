@@ -1,26 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
-//import * as xml2js from 'xml2js';
 
 @Injectable()
 export class DataService {
 
+  ModulesObservable : any;
+  ModulesObserver : any;
+
   modulesData = [];
+  currLang = "ru";
 
   constructor(public http: Http) {
 
-    this.http.get('assets/data.json')
+    this.ModulesObservable = Observable.create(observer => {
+      this.ModulesObserver = observer;
+    });
+
+    this.http.get('assets/modules.json')
       .subscribe( data => {
-        console.log('JSON:',data.json())
+
         data.json().forEach(d=>{
           this.modulesData.push(d);
-        })
+        });
+
+        this.ModulesObserver.next();
+
       })
   }
 
-  getModules(){
-    return this.modulesData;
+  getModule(){
+    return this.modulesData.filter(module => {
+      return module.lang === this.currLang
+    });
+  }
+
+  setLanguage(lang){
+    this.currLang = lang;
+    this.ModulesObserver.next()
   }
 
 }
