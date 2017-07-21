@@ -1,6 +1,7 @@
 page-home {
   .header{
-    color: #012D5A;
+    //color: #012D5A;
+    color: #fff;
   }
   .titleImg{
     transform: scale(1.5, 1.5);
@@ -56,5 +57,10 @@ page-home {
   }
   .col{
     padding: 1px;
+  }
+
+  .main-bg{
+    //background-color: #748CA5;
+    background-color: #466687;
   }
 }

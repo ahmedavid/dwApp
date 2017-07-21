@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {DataService} from "../../providers/data-service/data-service";
+import {IonicPage} from "ionic-angular";
+
+@IonicPage()
 
 @Component({
   selector: 'page-settings',
@@ -8,24 +11,7 @@ import {DataService} from "../../providers/data-service/data-service";
 export class SettingsPage {
 
   lang:string;
-  langList = [
-    {
-      code:'en',
-      name:'English'
-    },
-    {
-      code:'es',
-      name:'Español'
-    },
-    {
-      code:'ru',
-      name:'Русский'
-    },
-    {
-      code:'tr',
-      name:'Türkçe'
-    },
-  ];
+
 
   constructor(private dataService:DataService) {
     this.lang = this.dataService.currLang;

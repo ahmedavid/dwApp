@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {MenuController, NavController, Platform} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {LessonListPage} from "../lesson-list/lesson-list";
 import "rxjs/add/operator/map";
+import {IntroPage} from "../intro/intro";
 
 @Component({
   selector: 'page-home',
@@ -16,35 +18,50 @@ export class HomePage implements OnInit{
   constructor(
     private navCtrl: NavController,
     private dataService:DataService,
+    private platform:Platform,
+    private storage:Storage,
+    private menuCtrl:MenuController
   ) {}
 
   ngOnInit(){
-    this.dataService.ModulesObservable.subscribe(()=>{
-      const temp = this.dataService.getModule();
-      const {title,description,series} = temp[0].module;
-      this.module = {
-        title,
-        description,
-        series
-      };
-      console.log("MODULES:",this.module);
-    });
 
-    const temp = this.dataService.getModule();
-    if(temp.length > 0){
-      const {title,description,series} = temp[0].module;
-      this.module = {
-        title,
-        description,
-        series
-      };
-    }
+    this.platform.ready().then(()=>{
+      this.storage.get('introShown').then(result=>{
+        if(!result){
+          this.navCtrl.setRoot('IntroPage')
+        }
+        else{
 
-    this.lang = this.dataService.currLang;
-  }
+          this.menuCtrl.enable(true,'menu')
 
-  ionViewWillEnter(){
-    console.log("MODULES 2:",this.module);
+          this.dataService.ModulesObservable.subscribe(()=>{
+            const temp = this.dataService.getModule();
+            const {title,description,series} = temp[0].module;
+            this.module = {
+              title,
+              description,
+              series
+            };
+          });
+
+          const temp = this.dataService.getModule();
+          if(temp.length > 0){
+            const {title,description,series} = temp[0].module;
+            this.module = {
+              title,
+              description,
+              series
+            };
+          }
+
+          this.lang = this.dataService.currLang;
+
+
+        }
+      })
+    })
+
+
   }
 
   openLessonList(chapters,title){

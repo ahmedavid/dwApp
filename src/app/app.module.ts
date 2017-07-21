@@ -11,17 +11,14 @@ import {HttpModule} from "@angular/http";
 import { DataService } from '../providers/data-service/data-service';
 import {LessonListPage} from "../pages/lesson-list/lesson-list";
 import {PdfViewerComponent} from "ng2-pdf-viewer";
-import {AboutPage} from "../pages/about/about";
-import {SettingsPage} from "../pages/settings/settings";
 import {PdfPage} from "../pages/pdf/pdf";
+import {IonicStorageModule} from "@ionic/storage";
 
 @NgModule({
   declarations: [
     PdfViewerComponent,
     MyApp,
     HomePage,
-    AboutPage,
-    SettingsPage,
     LessonListPage,
     PdfPage
   ],
@@ -30,14 +27,13 @@ import {PdfPage} from "../pages/pdf/pdf";
     HttpModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    IonicAudioModule.forRoot(defaultAudioProviderFactory)
+    IonicAudioModule.forRoot(defaultAudioProviderFactory),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    AboutPage,
-    SettingsPage,
     LessonListPage,
     PdfPage
   ],
