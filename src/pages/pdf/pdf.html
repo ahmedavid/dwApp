@@ -14,11 +14,17 @@
 
 <ion-content>
 
+
+
   <ion-fab bottom right>
     <button ion-fab (click)="zoomIn()"><ion-icon name="add"></ion-icon></button>
     <button ion-fab (click)="zoomOut()"><ion-icon name="remove"></ion-icon></button>
 
   </ion-fab>
+
+  <a href="https://docs.google.com/gview?embedded=true&url=http://www.dw.com/downloads/25629156/eng1-01.pdf">GOOGLE</a>
+
+  <button ion-button (click)="openPDF()">PDF</button>
 
   <pdf-viewer *ngIf="isDevice;else other_content" [src]="src"
               [zoom]="zoom"

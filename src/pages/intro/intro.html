@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar color="menu">
+    <ion-title>Welcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h2 style="text-align: center;margin-top: 140px">Welcome to Deutsch ,</h2>
+  <h2 style="text-align: center;">Warum Nicht?</h2>
+  <p>Learn german by listening audio podcasts and exercise files.</p>
+  <p>Please select instruction language</p>
+
+  <ion-item>
+    <ion-label>instruction language</ion-label>
+    <ion-select [(ngModel)]="lang" (ionChange)="selected=true">
+      <ion-option *ngFor="let lang of dataService.langList" [value]="lang.code">
+        {{lang.name}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <button ion-button full color="menu" [disabled]="!selected" (click)="save()" style="margin-top:40px">Start!</button>
+
+</ion-content>

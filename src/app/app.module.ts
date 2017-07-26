@@ -13,6 +13,10 @@ import {LessonListPage} from "../pages/lesson-list/lesson-list";
 import {PdfViewerComponent} from "ng2-pdf-viewer";
 import {PdfPage} from "../pages/pdf/pdf";
 import {IonicStorageModule} from "@ionic/storage";
+import {FileTransfer} from "@ionic-native/file-transfer";
+import { File } from '@ionic-native/file';
+import {DocumentViewer} from "@ionic-native/document-viewer";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @NgModule({
   declarations: [
@@ -38,6 +42,10 @@ import {IonicStorageModule} from "@ionic/storage";
     PdfPage
   ],
   providers: [
+    InAppBrowser,
+    DocumentViewer,
+    FileTransfer,
+    File,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
