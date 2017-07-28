@@ -7,15 +7,15 @@
       <p class="motto">Deutsch , Warum Nicht!</p>
     </div>
 
-    <ion-list>
+    <ion-list no-lines>
       <button ion-item menuClose (click)="openPage(homePage)">
-        Home
+        <ion-icon name="home" item-left></ion-icon> Home
       </button>
       <button ion-item menuClose (click)="openPage(settingsPage)">
-        Settings
+        <ion-icon name="settings" item-left></ion-icon> Settings
       </button>
       <button ion-item menuClose (click)="openPage(aboutPage)">
-        About
+        <ion-icon name="alert" item-left></ion-icon> About
       </button>
     </ion-list>
   </ion-content>

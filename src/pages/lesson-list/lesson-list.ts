@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import {ModalController, NavParams} from 'ionic-angular';
 import {AudioProvider} from "ionic-audio";
-import {PdfPage} from "../pdf/pdf";
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {DocumentViewer, DocumentViewerOptions} from "@ionic-native/document-viewer";
+
 
 @Component({
   selector: 'page-lesson-list',
@@ -14,6 +18,9 @@ export class LessonListPage {
   tracks:any;
 
   constructor(
+    private document: DocumentViewer,
+    private iab:InAppBrowser,
+    private transfer: FileTransfer, private file: File,
     private navParams: NavParams,
     private _audioProvider: AudioProvider,
     private modalCtrl:ModalController) {}
@@ -31,8 +38,26 @@ export class LessonListPage {
   }
 
   openDoc(index){
-    const modal=this.modalCtrl.create(PdfPage,{src:this.chapters[index].media.pdf,title:this.chapters[index].title});
-    modal.present()
+    //const modal=this.modalCtrl.create(PdfPage,{src:this.chapters[index].media.pdf,title:this.chapters[index].title});
+    //modal.present()
+    this.download(index)
+  }
+
+  download(index) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    fileTransfer.download(this.chapters[index].media.pdf, this.file.externalDataDirectory + this.chapters[index].title + ".pdf").then((entry) => {
+      console.log('download complete: ' + entry.toURL());
+
+      const options: DocumentViewerOptions = {
+        title: this.chapters[index].title,
+        openWith:{enabled:true}
+      }
+
+      this.document.viewDocument(entry.toURL(), 'application/pdf', options)
+
+    }, (error) => {
+      console.log("ERROR:",error)
+    });
   }
 
   play(){

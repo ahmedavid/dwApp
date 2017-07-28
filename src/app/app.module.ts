@@ -24,7 +24,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     MyApp,
     HomePage,
     LessonListPage,
-    PdfPage
+    PdfPage,
   ],
   imports: [
 
@@ -39,7 +39,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     MyApp,
     HomePage,
     LessonListPage,
-    PdfPage
+    PdfPage,
   ],
   providers: [
     InAppBrowser,
