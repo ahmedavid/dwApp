@@ -4,7 +4,6 @@ import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {LessonListPage} from "../lesson-list/lesson-list";
 import "rxjs/add/operator/map";
-import {IntroPage} from "../intro/intro";
 
 @Component({
   selector: 'page-home',
