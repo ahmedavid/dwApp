@@ -17,6 +17,7 @@ import {FileTransfer} from "@ionic-native/file-transfer";
 import { File } from '@ionic-native/file';
 import {DocumentViewer} from "@ionic-native/document-viewer";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import { AudioService } from '../providers/audio-service/audio-service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataService
+    DataService,
+    AudioService
   ]
 })
 export class AppModule {}
