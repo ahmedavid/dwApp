@@ -43,7 +43,7 @@ export class PdfPage {
   }
 
   onDissmis(){
-    this.viewCtrl.dismiss()
+           this.viewCtrl.dismiss()
   }
 
   zoomOut(){

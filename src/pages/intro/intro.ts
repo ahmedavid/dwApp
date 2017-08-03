@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, MenuController, NavController} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, Platform} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {HomePage} from "../home/home";
@@ -16,14 +16,29 @@ export class IntroPage {
   selected=false;
 
   constructor(
+    private platform:Platform,
     private dataService:DataService,
     private navCtrl:NavController,
     private storage:Storage,
     private menuCtrl:MenuController
   ) {
-    this.menuCtrl.enable(false, 'menu');
     this.dataService.ModulesObservable.subscribe();
+
+    this.storage.get('introShown')
+      .then(result=>{
+      console.log("INTRO:",result)
+      if(result){
+
+        this.navCtrl.setRoot(HomePage)
+      }
+      else{
+        this.menuCtrl.enable(false, 'menu');
+
+      }
+    }).catch(err=>console.log(err))
+
   }
+
 
   async save(){
     await this.storage.set("lang",this.lang);
