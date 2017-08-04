@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
-import {ModalController, NavParams} from 'ionic-angular';
-import {AudioProvider, ITrackConstraint} from "ionic-audio";
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+import {Component, ViewChild} from '@angular/core';
+import {Content, ModalController, NavParams} from 'ionic-angular';
+import {AudioProvider, IAudioTrack, ITrackConstraint} from "ionic-audio";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {DocumentViewer, DocumentViewerOptions} from "@ionic-native/document-viewer";
-import {AudioService} from "../../providers/audio-service/audio-service";
+import {DataService} from "../../providers/data-service/data-service";
 
 
 @Component({
@@ -14,68 +12,53 @@ import {AudioService} from "../../providers/audio-service/audio-service";
 })
 export class LessonListPage {
 
+  @ViewChild(Content) content: Content;
   title:string;
   chapters:any;
   tracks:any;
-
-  currentIndex: number = -1;
+  current:IAudioTrack;
 
   constructor(
-    public audioService:AudioService,
-    private _audioProvider:AudioProvider,
+    private dataService:DataService,
+    private audio:AudioProvider,
     private document: DocumentViewer,
     private iab:InAppBrowser,
-    private transfer: FileTransfer, private file: File,
     private navParams: NavParams,
     private modalCtrl:ModalController) {}
 
   ionViewDidLoad() {
-    this.chapters = this.navParams.get('chapters');
-    this.title = this.navParams.get('title');
+   this.chapters = this.navParams.get('chapters');
+   this.chapters = this.chapters.filter((item)=>item.media)
+   this.title = this.navParams.get('title');
 
-    this.tracks=this.chapters.filter((item)=>item.media).map((item)=>{
-      return {
-        title:item.title,
-        src:item.media.mp3
-      }
-    });
+
+
+   this.tracks=this.audio.tracks
+    .filter((track)=>{
+     return this.chapters.find(chapter=>chapter.title === track.title)
+    })
+
+    console.log("Current Track is ",this.current)
   }
 
-  show(track){
-    console.log("ANANI SIKIIIM:",track)
-    console.log("BAJINI SIKIM ",this._audioProvider.tracks)
+  ionViewWillEnter(){
+    this.content.resize();
+    this.current = this.audio.tracks[this.audio.current];
   }
 
   play(track){
-    console.log(track)
-    this.audioService.CurrentTack = track;
-  }
-
-  openDoc(index){
-    //const modal=this.modalCtrl.create(PdfPage,{src:this.chapters[index].media.pdf,title:this.chapters[index].title});
-    //modal.present()
-    this.download(index)
-  }
-
-  download(index) {
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    fileTransfer.download(this.chapters[index].media.pdf, this.file.externalDataDirectory + this.chapters[index].title + ".pdf").then((entry) => {
-      console.log('download complete: ' + entry.toURL());
-
-      const options: DocumentViewerOptions = {
-        title: this.chapters[index].title,
-        openWith:{enabled:true}
-      }
-
-      this.document.viewDocument(entry.toURL(), 'application/pdf', options)
-
-    }, (error) => {
-      console.log("ERROR:",error)
-    });
-  }
-
-  onTrackFinished(event){
+    this.content.resize();
+    if(track.isPlaying){
+      this.audio.tracks.forEach(track=>track.stop())
+    }
+    else{
+      this.audio.tracks.forEach(track=>track.stop())
+      this.current = track;
+      this.audio.play(this.audio.tracks.indexOf(track))
+    }
 
   }
+
+
 
 }

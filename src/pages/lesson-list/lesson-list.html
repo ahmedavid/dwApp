@@ -10,32 +10,38 @@
 <ion-content no-padding>
 
 
-  <ion-list>
-    <button ion-item *ngFor="let track of tracks" (click)="audioService.currentTrack = track">
-      <h2>{{track.title}}</h2>
-    </button>
+  <ion-list no-lines>
+    <ng-container *ngFor="let track of tracks">
+      <button ion-item detail-none [ngClass]="{'playing':track.isPlaying}" (click)="play(track)">
+        <ion-icon *ngIf="!track.isPlaying" name="play" item-left color="menu"></ion-icon>
+        <ion-icon *ngIf="track.isPlaying" name="pause" item-left color="menu"></ion-icon>
+        <ion-spinner *ngIf="track.isLoading" item-right></ion-spinner>
+        <h2>{{track.title}}</h2>
+        <p *ngIf="track.isPlaying">Playing</p>
+      </button>
+    </ng-container>
+
   </ion-list>
 
 
 </ion-content>
 
-<ion-footer>
+<ion-footer padding *ngIf="current">
 
-
-  <audio-track #audioTrack [track]="audioService.CurrentTack" [autoplay]="true" (onFinish)="onTrackFinished($event)">
-    <button ion-button (click)="show(audioTrack)"></button>
-    <audio-track-progress-bar duration progress [audioTrack]="audioTrack" style="width: 100%; margin: 0 10px"></audio-track-progress-bar>
-    <div style="display: flex;justify-content: center;">
-      <button ion-button icon-only (click)="audioTrack.canPlay ? audioTrack.play() : next()"><ion-icon name="play"></ion-icon></button>
-      <button ion-button icon-only (click)="audioTrack.pause()"><ion-icon name="pause"></ion-icon></button>
-      <button ion-button icon-only (click)="next()"><ion-icon name="skip-forward"></ion-icon></button>
-
-    </div>
-    <div style="display: flex; justify-content: center; height: 50px">
-      <div *ngIf="audioTrack && audioTrack.hasLoaded"><em>{{ audioTrack?.title }}</em></div>
-      <ion-spinner *ngIf="audioTrack && audioTrack.isLoading"></ion-spinner>
-    </div>
-  </audio-track>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2 *ngIf="current">
+        <button *ngIf="!current.isPlaying" ion-fab color="light" (click)="play(current)"><ion-icon name="play"></ion-icon></button>
+        <button *ngIf="current.isPlaying" ion-fab color="light" (click)="play(current)"><ion-icon name="pause"></ion-icon></button>
+      </ion-col>
+      <ion-col>
+        <audio-track-progress-bar duration progress #audioTrack [audioTrack]="current" style="width: 100%; margin: 10px"></audio-track-progress-bar>
+        <div style="display: flex; justify-content: center;">
+          <div *ngIf="current && current.hasLoaded" style="color: #fff">{{ current?.title }}</div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
 </ion-footer>

@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {LessonListPage} from "../lesson-list/lesson-list";
 import "rxjs/add/operator/map";
+import {AudioProvider} from "ionic-audio";
+import {File} from "@ionic-native/file";
 
 @Component({
   selector: 'page-home',
@@ -12,9 +14,10 @@ import "rxjs/add/operator/map";
 export class HomePage implements OnInit{
 
   module:any;
-  lang:string;
 
   constructor(
+    private file:File,
+    private audio:AudioProvider,
     private navCtrl: NavController,
     private dataService:DataService,
     private platform:Platform,
@@ -23,43 +26,41 @@ export class HomePage implements OnInit{
   ) {}
 
   ngOnInit(){
-
-    this.platform.ready().then(()=>{
-      this.storage.get('introShown').then(result=>{
-        if(!result){
-          this.navCtrl.setRoot('IntroPage')
-        }
-        else{
-
-          this.menuCtrl.enable(true,'menu')
-
-          this.dataService.ModulesObservable.subscribe(()=>{
-            const temp = this.dataService.getModule();
-            const {title,description,series} = temp[0].module;
-            this.module = {
-              title,
-              description,
-              series
-            };
-          });
-
-          const temp = this.dataService.getModule();
-          if(temp.length > 0){
-            const {title,description,series} = temp[0].module;
-            this.module = {
-              title,
-              description,
-              series
-            };
-          }
-
-          this.lang = this.dataService.currLang;
+    this.init()
+  }
 
 
-        }
-      })
-    })
+  async init(){
+    await this.platform.ready()
+    const result = await this.storage.get('introShown')
+    if(!result){
+      this.navCtrl.setRoot('IntroPage')
+    }
+    else{
+      this.menuCtrl.enable(true,'menu')
+      this.dataService.ModulesObservable.subscribe(()=>{
+        this.getModule()
+      });
+      this.getModule()
+    }
+  }
 
+  async getModule(){
+    const temp = this.dataService.getModule();
+    if(temp.length > 0){
+      const {title,description,series} = temp[0].module;
+      this.module = {
+        title,
+        description,
+        series
+      };
+
+
+      if(this.module){
+
+      }
+
+    }
 
   }
 

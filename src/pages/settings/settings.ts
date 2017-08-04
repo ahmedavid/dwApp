@@ -4,6 +4,7 @@ import {IonicPage, Platform} from "ionic-angular";
 
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import {AudioProvider} from "ionic-audio";
 
 @IonicPage()
 
@@ -18,13 +19,9 @@ export class SettingsPage {
   count:number = 0;
   percentage:number = 0;
 
-  track = {
-    title:"TEST",
-    src:'file:///storage/emulated/0/Android/data/io.ionic.dwApp/files/Series%203/DWN_Englisch_Serie3_Lektion05.mp3'
-  }
-
 
   constructor(
+    private audio:AudioProvider,
     private dataService:DataService,
     private platform:Platform,
     private transfer: FileTransfer, private file: File
@@ -33,25 +30,21 @@ export class SettingsPage {
   }
 
   ionViewDidLoad(){
-    //this.count = this.dataService.modulesData[0].module.series[0].chapters.filter(chapter=> chapter.media).length;
 
     this.count = this.dataService.modulesData[0].module.series.reduce(function (prev, next) {
-      console.log(prev,next)
-      return prev + next.chapters.length - 5;
+      return prev + next.chapters.length - 6;
     },0)
-
-    console.log('COUNT :',this.count)
   }
 
   onChangeLang(){
-    console.log(this.lang)
     this.dataService.setLanguage(this.lang);
+    this.audio.current = null;
+    //this.audio.tracks = []
+    console.log("Tracks in Provider",this.audio.tracks)
+
   }
 
-
-
   async getChapter(chapter:any,serie:string){
-    console.log("CHAPTERS:",chapter)
     const fileTransfer: FileTransferObject = this.transfer.create();
     if(chapter.media){
 
@@ -62,12 +55,12 @@ export class SettingsPage {
       let mp3:any;
 
       if(this.platform.is('ios')){
-        pdf = await fileTransfer.download(chapter.media.pdf, this.file.dataDirectory + '/'+serie+'/' + pdfTitle);
-        mp3 = await fileTransfer.download(chapter.media.mp3, this.file.dataDirectory + '/'+serie+'/' + mp3Title);
+        pdf = await fileTransfer.download(chapter.media.pdf, this.file.dataDirectory + '/'+this.lang+'/' + pdfTitle);
+        mp3 = await fileTransfer.download(chapter.media.mp3, this.file.dataDirectory + '/'+this.lang+'/' + mp3Title);
       }
       if(this.platform.is('android')){
-        pdf = await fileTransfer.download(chapter.media.pdf, this.file.externalDataDirectory + '/'+serie+'/' + pdfTitle);
-        mp3 = await fileTransfer.download(chapter.media.mp3, this.file.externalDataDirectory + '/'+serie+'/' + mp3Title);
+        pdf = await fileTransfer.download(chapter.media.pdf, this.file.externalDataDirectory + '/'+this.lang+'/' + pdfTitle);
+        mp3 = await fileTransfer.download(chapter.media.mp3, this.file.externalDataDirectory + '/'+this.lang+'/' + mp3Title);
       }
 
 
@@ -113,44 +106,8 @@ export class SettingsPage {
 
     this.counter = 0;
     this.percentage = 0;
-
-    const series = this.dataService.modulesData[0].module.series;
-
+    const series = this.dataService.modulesData.filter(module=>module.lang === this.dataService.currLang)[0].module.series;
     await this.getSeries(series)
-
-
-
-
-
-    //
-    //   .forEach(async chapter=>{
-    //
-    //
-    //
-    //
-    //
-    //   //   .then((entry) => {
-    //   //   console.log('download complete: ' + entry.toURL());
-    //   // }, (error) => {
-    //   //   console.log("ERROR:",error)
-    //   // });
-    // })
-
-    // this.dataService.modulesData.forEach(module=>{
-    //   console.log('FOLDER NAME:',module.lang)
-    //
-    //   this.file.checkDir(this.file.externalDataDirectory,module.lang)
-    //     .then(exists=>{
-    //       console.log("DIRECTORY EXISTS FOR "+module.lang)
-    //     })
-    //     .catch(err=>{
-    //       this.file.createDir(this.file.externalDataDirectory,module.lang,false)
-    //         .then(dir=>{
-    //           console.log("Creating directory for ",module.lang)
-    //         })
-    //         .catch(err=>console.log(err))
-    //     })
-    // })
-
+    this.dataService.loadedModules[this.dataService.currLang] = false;
   }
 }
