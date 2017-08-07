@@ -30,7 +30,6 @@
         "@ionic-native/status-bar": "3.12.1",
         "@ionic/storage": "^2.0.1",
         "cordova-android": "^6.2.3",
-        "cordova-ios": "^4.4.0",
         "cordova-plugin-android-support-v4-jar": "^23.2.1",
         "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.5",
@@ -59,7 +58,7 @@
         "@ionic/cli-plugin-ionic-angular": "1.4.1",
         "@types/xml2js": "^0.4.0",
         "ionic": "3.7.0",
-        "typescript": "2.3.4"
+        "typescript": "2.3.0"
     },
     "description": "An Ionic project",
     "cordova": {
@@ -77,8 +76,7 @@
             "cordova-plugin-inappbrowser": {}
         },
         "platforms": [
-            "android",
-            "ios"
+            "android"
         ]
     }
 }

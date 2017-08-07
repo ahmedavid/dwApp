@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavParams, Platform, ViewController} from 'ionic-angular';
-import {DocumentViewer, DocumentViewerOptions} from "@ionic-native/document-viewer";
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {DataService} from "../../providers/data-service/data-service";
+import { File } from '@ionic-native/file';
 
 @Component({
   selector: 'page-pdf',
@@ -10,14 +10,15 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 export class PdfPage {
 
   src:any;
+  rawSrc:any;
   title:string;
   zoom=1;
   isDevice=false;
   pdf:any;
 
   constructor(
-    private iab: InAppBrowser,
-    private document:DocumentViewer,
+    private file:File,
+    private dataService:DataService,
     public navParams: NavParams,
     private viewCtrl:ViewController,
     private platform:Platform) {
@@ -25,21 +26,27 @@ export class PdfPage {
   }
 
   ionViewDidLoad() {
-    this.src=this.navParams.get('src');
+    this.rawSrc=this.navParams.get('src');
     this.title=this.navParams.get('title');
 
+    this.loadPdf();
   }
 
-  openPDF(){
-    const browser = this.iab.create('http://www.dw.com/downloads/25629156/eng1-01.pdf');
-    browser.show();
+  async loadPdf(){
+    const fileName = this.rawSrc.split('/').pop();
 
+    console.log("SRC:",fileName)
 
-    const options: DocumentViewerOptions = {
-      title: 'My PDF'
+    try{
+      const result = await this.dataService.checkFile(fileName)
+
+      if(result){
+        this.src=this.file.externalDataDirectory + '/'+this.dataService.currLang+'/' + fileName;
+      }
     }
-
-    //this.document.viewDocument('assets/myFile.pdf', 'application/pdf', options)
+    catch (err){
+      this.src=this.rawSrc
+    }
   }
 
   onDissmis(){

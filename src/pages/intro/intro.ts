@@ -16,7 +16,6 @@ export class IntroPage {
   selected=false;
 
   constructor(
-    private platform:Platform,
     private dataService:DataService,
     private navCtrl:NavController,
     private storage:Storage,

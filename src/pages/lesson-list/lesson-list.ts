@@ -1,9 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, ModalController, NavParams} from 'ionic-angular';
-import {AudioProvider, IAudioTrack, ITrackConstraint} from "ionic-audio";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
-import {DocumentViewer, DocumentViewerOptions} from "@ionic-native/document-viewer";
-import {DataService} from "../../providers/data-service/data-service";
+import {AudioProvider, IAudioTrack} from "ionic-audio";
+import {PdfPage} from "../pdf/pdf";
 
 
 @Component({
@@ -19,10 +17,7 @@ export class LessonListPage {
   current:IAudioTrack;
 
   constructor(
-    private dataService:DataService,
     private audio:AudioProvider,
-    private document: DocumentViewer,
-    private iab:InAppBrowser,
     private navParams: NavParams,
     private modalCtrl:ModalController) {}
 
@@ -39,11 +34,16 @@ export class LessonListPage {
     })
 
     console.log("Current Track is ",this.current)
+    console.log("PDF ",this.chapters)
   }
 
   ionViewWillEnter(){
     this.content.resize();
     this.current = this.audio.tracks[this.audio.current];
+  }
+
+  openDoc(index){
+    this.modalCtrl.create(PdfPage,{src:this.chapters[index].media.pdf}).present();
   }
 
   play(track){

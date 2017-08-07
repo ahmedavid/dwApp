@@ -11,7 +11,8 @@
 
 
   <ion-list no-lines>
-    <ng-container *ngFor="let track of tracks">
+
+    <ion-item-sliding *ngFor="let track of tracks;let i=index;">
       <button ion-item detail-none [ngClass]="{'playing':track.isPlaying}" (click)="play(track)">
         <ion-icon *ngIf="!track.isPlaying" name="play" item-left color="menu"></ion-icon>
         <ion-icon *ngIf="track.isPlaying" name="pause" item-left color="menu"></ion-icon>
@@ -19,7 +20,11 @@
         <h2>{{track.title}}</h2>
         <p *ngIf="track.isPlaying">Playing</p>
       </button>
-    </ng-container>
+      <ion-item-options side="right">
+        <button ion-button icon-only (click)="openDoc(i)"><ion-icon style="font-size: 2.2em" name="document" color="light"></ion-icon></button>
+      </ion-item-options>
+    </ion-item-sliding>
+
 
   </ion-list>
 

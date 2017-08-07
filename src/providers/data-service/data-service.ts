@@ -49,8 +49,6 @@ export class DataService {
 
     this.langList.forEach(lang=>this.loadedModules[lang.code]=false)
 
-    console.log('LOADED MODULES:',this.loadedModules)
-
     this.init();
   }
 
@@ -99,8 +97,6 @@ export class DataService {
         }
 
         this.loadedModules[this.currLang] = true;
-
-        console.log("TRACKS : ",this.audio.tracks)
       }
     }
   }

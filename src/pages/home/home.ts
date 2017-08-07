@@ -4,8 +4,6 @@ import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {LessonListPage} from "../lesson-list/lesson-list";
 import "rxjs/add/operator/map";
-import {AudioProvider} from "ionic-audio";
-import {File} from "@ionic-native/file";
 
 @Component({
   selector: 'page-home',
@@ -16,8 +14,6 @@ export class HomePage implements OnInit{
   module:any;
 
   constructor(
-    private file:File,
-    private audio:AudioProvider,
     private navCtrl: NavController,
     private dataService:DataService,
     private platform:Platform,

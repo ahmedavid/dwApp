@@ -31,7 +31,7 @@
 
 
 
-  <button block ion-button icon-start color="menu" (click)="download()"><ion-icon name="cloud-download" color="light"></ion-icon> Make Available Offline</button>
+  <button block ion-button icon-start color="menu" [disabled]="disabled" (click)="download()"><ion-icon name="cloud-download" color="light"></ion-icon> Make Available Offline</button>
 
   <ion-label text-center="">downloaded {{counter}} of {{count}}</ion-label>
   <progress-bar [progress]="percentage"></progress-bar>
