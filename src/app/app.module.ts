@@ -17,6 +17,7 @@ import {FileTransfer} from "@ionic-native/file-transfer";
 import { File } from '@ionic-native/file';
 import {DocumentViewer} from "@ionic-native/document-viewer";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {AdMobFree} from "@ionic-native/admob-free";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     PdfPage,
   ],
   providers: [
+    AdMobFree,
     InAppBrowser,
     DocumentViewer,
     FileTransfer,

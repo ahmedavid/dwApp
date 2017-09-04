@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import {DataService} from "../../providers/data-service/data-service";
 import {LessonListPage} from "../lesson-list/lesson-list";
 import "rxjs/add/operator/map";
+import {AdMobFree, AdMobFreeBannerConfig} from "@ionic-native/admob-free";
 
 @Component({
   selector: 'page-home',
@@ -14,6 +15,7 @@ export class HomePage implements OnInit{
   module:any;
 
   constructor(
+    private admobFree: AdMobFree,
     private navCtrl: NavController,
     private dataService:DataService,
     private platform:Platform,
@@ -23,6 +25,28 @@ export class HomePage implements OnInit{
 
   ngOnInit(){
     this.init()
+  }
+
+  ionViewDidLoad(){
+    const bannerConfig: AdMobFreeBannerConfig = {
+      // add your config here
+      // for the sake of this example we will just use the test config
+      isTesting:false,
+      id:"ca-app-pub-9710732367609431/1920963016",
+      autoShow: true
+    };
+    this.admobFree.banner.config(bannerConfig);
+
+    this.admobFree.banner.prepare()
+      .then(() => {
+        console.log("BANNER READY")
+        // banner Ad is ready
+        // if we set autoShow to false, then we will need to call the show method here
+      })
+      .catch(e => {
+        console.log(e)
+        console.log("BANNER ERROR:",e)
+      });
   }
 
 
@@ -50,12 +74,6 @@ export class HomePage implements OnInit{
         description,
         series
       };
-
-
-      if(this.module){
-
-      }
-
     }
 
   }
