@@ -25,6 +25,7 @@
   </ion-card>
 
   <ion-card class="series-card" *ngFor="let serie of module?.series;let i=index" (click)="openLessonList(serie.chapters,serie.title)">
+    <ion-icon *ngIf="dataService.currSerie==serie.title" class="play-icon" name="volume-up"></ion-icon>
     <img [src]="'assets/series/'+(i+1)+'.jpg'"/>
     <div class="bg">
       <div class="card-title">{{serie.title}}</div>

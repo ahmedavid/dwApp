@@ -15,6 +15,7 @@ export class DataService {
   modulesData = [];
 
   currLang:string;
+  currSerie:string="";
 
   langList = [
     {

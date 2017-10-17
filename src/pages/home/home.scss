@@ -1,4 +1,13 @@
 page-home {
+  .play-icon{
+    position: absolute;
+    bottom:18px;
+    left: 18px;
+    font-size: 24px;
+    color: #fff;
+    z-index: 100;
+  }
+
   .header{
     //color: #012D5A;
     color: #fff;

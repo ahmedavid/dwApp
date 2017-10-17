@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {Content, ModalController, NavParams} from 'ionic-angular';
 import {AudioProvider, IAudioTrack} from "ionic-audio";
 import {PdfPage} from "../pdf/pdf";
+import {DataService} from "../../providers/data-service/data-service";
 
 
 @Component({
@@ -17,13 +18,14 @@ export class LessonListPage {
   current:IAudioTrack;
 
   constructor(
+    private dataService:DataService,
     private audio:AudioProvider,
     private navParams: NavParams,
     private modalCtrl:ModalController) {}
 
   ionViewDidLoad() {
    this.chapters = this.navParams.get('chapters');
-   this.chapters = this.chapters.filter((item)=>item.media)
+   this.chapters = this.chapters.filter((item)=>item.media);
    this.title = this.navParams.get('title');
 
 
@@ -31,10 +33,7 @@ export class LessonListPage {
    this.tracks=this.audio.tracks
     .filter((track)=>{
      return this.chapters.find(chapter=>chapter.title === track.title)
-    })
-
-    console.log("Current Track is ",this.current)
-    console.log("PDF ",this.chapters)
+    });
   }
 
   ionViewWillEnter(){
@@ -47,9 +46,11 @@ export class LessonListPage {
   }
 
   play(track){
+    this.dataService.currSerie=this.title;
     this.content.resize();
     if(track.isPlaying){
       this.audio.tracks.forEach(track=>track.stop())
+      this.dataService.currSerie="";
     }
     else{
       this.audio.tracks.forEach(track=>track.stop())
@@ -58,7 +59,4 @@ export class LessonListPage {
     }
 
   }
-
-
-
 }
